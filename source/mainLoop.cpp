@@ -192,6 +192,8 @@ void CheckForInterfaces()
         {
             controllerPtr = std::make_unique<Xbox360Controller>(std::make_unique<SwitchUSBDevice>(interfaces, total_entries));
             WriteToLog("Registered Xbox 360 controller");
+            CallInitHandler(controllerPtr);
+            
         }
         else if (R_SUCCEEDED(QueryInterfaces(interfaces, sizeof(interfaces), &total_entries, USB_CLASS_VENDOR_SPEC, 93, 129)))
         {
@@ -206,23 +208,26 @@ void CheckForInterfaces()
         {
             controllerPtr = std::make_unique<XboxController>(std::make_unique<SwitchUSBDevice>(interfaces, total_entries));
             WriteToLog("Registered Xbox controller");
+            CallInitHandler(controllerPtr);
         }
         else if (R_SUCCEEDED(QueryInterfaces(interfaces, sizeof(interfaces), &total_entries, USB_CLASS_VENDOR_SPEC, 71, 208)))
         {
             controllerPtr = std::make_unique<XboxOneController>(std::make_unique<SwitchUSBDevice>(interfaces, total_entries));
             WriteToLog("Registered Xbox One controller");
+            CallInitHandler(controllerPtr);
         }
         else if (R_SUCCEEDED(QueryVendorProduct(interfaces, sizeof(interfaces), &total_entries, VENDOR_SONY, PRODUCT_DUALSHOCK3)))
         {
             controllerPtr = std::make_unique<Dualshock3Controller>(std::make_unique<SwitchUSBDevice>(interfaces, total_entries));
             WriteToLog("Registered DS3 controller");
+            CallInitHandler(controllerPtr);
         }
         else if (R_SUCCEEDED(QueryVendorProduct(interfaces, sizeof(interfaces), &total_entries, VENDOR_SONY, _globalConfig.dualshock4_productID)))
         {
             controllerPtr = std::make_unique<Dualshock4Controller>(std::make_unique<SwitchUSBDevice>(interfaces, total_entries));
             WriteToLog("Registered DS4 controller");
+            CallInitHandler(controllerPtr);
         }
-        CallInitHandler(controllerPtr);
     }
 }
 
